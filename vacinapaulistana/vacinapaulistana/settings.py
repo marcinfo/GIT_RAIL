@@ -63,10 +63,10 @@ WSGI_APPLICATION = 'vacinapaulistana.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',# nome do driver
-        'NAME': 'mauri879_univesp_projeto_integrador_bd-testes',
-        'USER': 'mauri879_univesp',
-        'PASSWORD': 'dinclo',
-        'HOST': 'mauriciolima.eti.br', # não obrigatorio, se desejar pode deixar ja especificado
+        'NAME': 'vacina_paulistana',
+        'USER': 'root',
+        'PASSWORD': '201206',
+        'HOST': 'localhost', # não obrigatorio, se desejar pode deixar ja especificado
         'PORT': '3306',
     }
 }

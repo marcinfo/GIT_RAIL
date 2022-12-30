@@ -10,8 +10,21 @@
     <span class="logo">Vacina Paulistana</span>
     {% if request.user.is_authenticated %}
     <ul class="menu">
-      <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
-        <a href="{% url "dashboard" %}">Minha Conta</a>
+      <li {% if section == "inicio" %}class="selected"{% endif %}>
+        <a href="{% url "index" %}">inicio</a>
+      </li>
+      <li {% if section == "Vacinas disponivei no SUS" %}class="selected"{% endif %}>
+        <a href="{% url "vacinas_prazos" %}">Vacinas disponivei no SUS</a>
+      </li>
+
+      <li {% if section == "UBS" %}class="selected"{% endif %}>
+        <a href="{% url "encontra_ubs" %}">UBS</a>
+      </li>
+      <li {% if section == "Carteirinha" %}class="selected"{% endif %}>
+        <a href="{% url "minhas_vacinas" %}">Carteirinha</a>
+      </li>
+      <li {% if section == "API" %}class="selected"{% endif %}>
+        <a href="{% url "api" %}">API</a>
       </li>
       <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
         <a href="{% url "dashboard" %}">Minha Conta</a>

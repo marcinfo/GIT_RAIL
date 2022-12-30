@@ -22,6 +22,10 @@ def encontra_ubs(request):
 def minhas_vacinas(request):
 
     return render(request, 'vacina/minhas_vacinas.html')
+
+def api(request):
+
+    return render(request, 'vacina/api.html')
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

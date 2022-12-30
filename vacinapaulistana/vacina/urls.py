@@ -1,7 +1,7 @@
 from django.urls import path,include
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import index,vacinas_prazos,encontra_ubs,minhas_vacinas,api
+from .views import index,vacinas_prazos,encontra_ubs,minhas_vacinas,api,links
 
 urlpatterns = [
 
@@ -14,5 +14,6 @@ urlpatterns = [
     path('vacinas_prazos/',vacinas_prazos,name='vacinas_prazos'),
     path('minhas_vacinas/',minhas_vacinas,name='minhas_vacinas'),
     path('api/',api,name='api'),
+    path('links/',links,name='links'),
 
 ]

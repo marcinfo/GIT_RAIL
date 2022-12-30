@@ -23,6 +23,10 @@ def minhas_vacinas(request):
 
     return render(request, 'vacina/minhas_vacinas.html')
 
+def links(request):
+
+    return render(request, 'vacina/links.html')
+
 def api(request):
 
     return render(request, 'vacina/api.html')

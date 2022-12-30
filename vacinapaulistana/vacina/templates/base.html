@@ -26,9 +26,16 @@
       <li {% if section == "API" %}class="selected"{% endif %}>
         <a href="{% url "api" %}">API</a>
       </li>
+
+
+      <li {% if section == "links" %}class="selected"{% endif %}>
+        <a href="{% url "links" %}">links</a>
+      </li>
       <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
         <a href="{% url "dashboard" %}">Minha Conta</a>
       </li>
+
+
     </ul>
   {% endif %}
   <span class="user">

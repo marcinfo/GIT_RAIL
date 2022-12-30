@@ -10,10 +10,12 @@
     <span class="logo">Vacina Paulistana</span>
     {% if request.user.is_authenticated %}
     <ul class="menu">
-      <li {% if section == "Painel de Controle" %}class="selected"{% endif %}>
-        <a href="{% url "dashboard" %}">Painel de Controle</a>
+      <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
+        <a href="{% url "dashboard" %}">Minha Conta</a>
       </li>
-
+      <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
+        <a href="{% url "dashboard" %}">Minha Conta</a>
+      </li>
     </ul>
   {% endif %}
   <span class="user">

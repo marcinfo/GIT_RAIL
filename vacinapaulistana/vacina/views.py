@@ -4,9 +4,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import LoginForm, UserRegistrationForm,UserEditForm,ProfileEditForm
-from .models import Profile
+from .models import Profile,TbCalendarioVacina
 
+def index(request):
+    vac = TbCalendarioVacina.objects.all()
 
+    return render(request, 'vacina/index.html')
+
+def vacinas_prazos(request):
+
+    return render(request, 'vacina/vacinas_prazos.html')
+
+def encontra_ubs(request):
+
+    return render(request, 'vacina/encontra_ubs.html')
+
+def minhas_vacinas(request):
+
+    return render(request, 'vacina/minhas_vacinas.html')
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -55,6 +70,9 @@ def register(request):
 @login_required
 def dashboard(request):
     return render(request, 'vacina/dashboard.html', {'section': 'dashboard'})
+
+
+
 
 @login_required
 def edit(request):

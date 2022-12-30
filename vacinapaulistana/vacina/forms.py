@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile,TbCalendarioVacina
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -35,3 +35,8 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('date_of_birth', 'photo')
+
+class TbCalendarioVacinaForm(forms.ModelForm):
+    class Meta:
+        model = TbCalendarioVacina
+        fields = ('id_vacina', 'cod_vacina')

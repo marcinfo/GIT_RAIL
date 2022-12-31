@@ -7,13 +7,17 @@ from .forms import LoginForm, UserRegistrationForm,UserEditForm,ProfileEditForm
 from .models import Profile,TbCalendarioVacina
 
 def index(request):
-    vac = TbCalendarioVacina.objects.all()
 
     return render(request, 'vacina/index.html')
 
 def vacinas_prazos(request):
+    vac = TbCalendarioVacina.objects.all().order_by('meses','id_vacina')
 
-    return render(request, 'vacina/vacinas_prazos.html')
+    context = {
+        'vacin':'Vacinas disponibilizadas pelo SUS',
+        'vac':vac
+    }
+    return render(request, 'vacina/vacinas_prazos.html', context)
 
 def encontra_ubs(request):
 

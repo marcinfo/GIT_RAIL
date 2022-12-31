@@ -1,13 +1,37 @@
 
+
 {% extends "base.html" %}
 
-{% block title %}Vacina Paulistana{% endblock %}
+{% block title %}vacinas e prazos{% endblock %}
 
 {% block content %}
-  <h1>Vacinas disponíveis no SUS</h1>
-  <h2>{{ Vacinas }}</h2>
-  {% for vacina in Vacinas_prazos %}
-    <p>{{ vacina }}</p>
-  {% endfor %}
-  </form>
-{% endblock %}
+<body>
+<h2>{{ vacin }}</h2>
+<table class="TbCalendarioVacina">
+  <thead>
+    <tr>
+
+
+      <th>Vacina   </th>
+      <th>Meses    </th>
+      <th>Observações   </th>
+
+    </tr>
+  </thead>
+    <tbody>
+    {% for vac in vac %}
+    <tr>
+
+      <td> {{ vac.descricao_vacina }}</td>
+      <td> {{ vac.meses }}</td>
+      <td> {{ vac.observacao }}</td>
+    </tr>
+    {% endfor%}
+    </tbody>
+</table>
+<tr>
+
+    <p></p>
+
+</body>
+{% endblock  %}

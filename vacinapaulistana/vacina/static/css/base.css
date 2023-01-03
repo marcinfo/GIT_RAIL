@@ -1,28 +1,5 @@
 @import url(//fonts.googleapis.com/css?family=Muli);
 
-th{
-    color:#f1e975;
-    line-height: 1.8;
-    text-align: center;
-    border: 1px solid rgba(241, 161, 42, 0.837);
-    text-align: center;
-    text-transform: uppercase;
-    margin: 2 auto;
-    border-spacing: 10px;
-}
-.TbCalendarioVacina{
-    line-height: 1.8;
-    color:#fafafa;
-    border: 1px solid rgba(241, 161, 42, 0.837);
-    border-spacing: 10px;
-
-    text-align: center;
-    text-transform: uppercase;
-    border-spacing: 0px;
-    border-collapse: separate;
-    margin: 0 auto;
-
-}
 body {
     margin:0;
     padding:0;

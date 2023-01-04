@@ -10,16 +10,18 @@ th{
   background-color: #ADD8E6;*/
 }
 td{
-  font-weight:bold;
-  background-color: #ADD8E6;*/
+
+  /*background-color: #ADD8E6;*/
 }
 
 table{
-  width: 60%;
+
   margin-bottom : 50em;
   table-layout: fixed;
   text-align: center;
-  align: center
+  align: center;
+  border-spacing: 1px 1px;
+  bordercolor:#ADD8E6;
 }
 body {
     margin:0;

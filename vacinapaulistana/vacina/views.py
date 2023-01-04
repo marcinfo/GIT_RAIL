@@ -24,8 +24,13 @@ def encontra_ubs(request):
     return render(request, 'vacina/encontra_ubs.html')
 
 def minhas_vacinas(request):
+    vac = TbCalendarioVacina.objects.all().order_by('meses','id_vacina')
 
-    return render(request, 'vacina/minhas_vacinas.html')
+    context = {
+        'vacin':'Minha agenda',
+        'vac':vac
+    }
+    return render(request, 'vacina/minhas_vacinas.html',context)
 
 def links(request):
 

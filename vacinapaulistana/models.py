@@ -118,24 +118,15 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class TbCadastroVacinaAplicada(models.Model):
-    idvacina = models.AutoField(db_column='idVacina', primary_key=True)  # Field name made lowercase.
-    nome_vacina_aplicada = models.CharField(max_length=45)
-    data_vacina_aplicada = models.DateField(db_column='data_vacina aplicada')  # Field renamed to remove unsuitable characters.
-    local_vacina_ok = models.CharField(max_length=45)
-    lote_vacina_ok = models.CharField(db_column='Lote_vacina_ok', max_length=45, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tb_cadastro_vacina_aplicada'
-
-
 class TbCalendarioVacina(models.Model):
     id_vacina = models.AutoField(primary_key=True)
     cod_vacina = models.CharField(max_length=8)
     descricao_vacina = models.CharField(max_length=45)
     observacao = models.CharField(max_length=45)
     meses = models.IntegerField()
+    data_prevista = models.CharField(max_length=45, blank=True, null=True)
+    usuario = models.CharField(max_length=45, blank=True, null=True)
+    status_vacina = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -158,6 +149,7 @@ class TbMunicipioBrasil(models.Model):
     município = models.TextField(db_column='Município', blank=True, null=True)  # Field name made lowercase.
     região = models.TextField(db_column='Região', blank=True, null=True)  # Field name made lowercase.
     população_2010 = models.IntegerField(db_column='População 2010', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    id_municipiobrasil = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
@@ -185,6 +177,7 @@ class TbUbsDadosBrasil(models.Model):
     bairro = models.TextField(db_column='BAIRRO', blank=True, null=True)  # Field name made lowercase.
     latitude = models.TextField(db_column='LATITUDE', blank=True, null=True)  # Field name made lowercase.
     longitude = models.TextField(db_column='LONGITUDE', blank=True, null=True)  # Field name made lowercase.
+    idubsbrasil = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
@@ -192,7 +185,7 @@ class TbUbsDadosBrasil(models.Model):
 
 
 class TbUbsDadosSp(models.Model):
-    codigoubs = models.IntegerField(db_column='codigoUBS', primary_key=True)  # Field name made lowercase.
+    codigoubs = models.IntegerField(db_column='codigoUBS')  # Field name made lowercase.
     codigonacionalsaude = models.IntegerField(db_column='codigoNacionalSaude')  # Field name made lowercase.
     endereçoubs = models.TextField(db_column='endereçoUBS')  # Field name made lowercase.
     numeroenderecoubs = models.CharField(db_column='numeroEnderecoUBS', max_length=10)  # Field name made lowercase.
@@ -208,11 +201,11 @@ class TbUbsDadosSp(models.Model):
     informacoesidentificacaoubs = models.TextField(db_column='informacoesIdentificacaoUBS', blank=True, null=True)  # Field name made lowercase.
     latitude = models.CharField(max_length=50, blank=True, null=True)
     longitude = models.CharField(max_length=20, blank=True, null=True)
+    idubsbrasil_field = models.AutoField(db_column="idubsbrasil'", primary_key=True)  # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
 
     class Meta:
         managed = False
         db_table = 'tb_ubs_dados_sp'
-        unique_together = (('codigoubs', 'codigonacionalsaude'),)
 
 
 class VacinaProfile(models.Model):

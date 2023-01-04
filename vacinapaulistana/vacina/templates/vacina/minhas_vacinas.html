@@ -1,10 +1,41 @@
 
+
 {% extends "base.html" %}
 
-{% block title %}Vacina Paulistana{% endblock %}
+{% block title %}Minha Agenda{% endblock %}
 
 {% block content %}
-  <h1>Minhas Vacinas</h1>
+<body>
+<h2 align = "center">{{ vacin }}</h2>
+<table class="Tadela_vacinas" align = "center" >
+  <thead>
+    <tr>
 
-  </form>
-{% endblock %}
+
+      <th>Vacina   </th>
+      <th>Meses    </th>
+      <th>Data Prevista    </th>
+      <th>Status    </th>
+      <th>Observações   </th>
+
+    </tr>
+  </thead>
+    <tbody>
+    {% for vac in vac %}
+    <tr>
+
+      <td> {{ vac.descricao_vacina }}</td>
+      <td> {{ vac.meses }}</td>
+      <td> {{ vac.data_prevista }}</td>
+      <td> {{ vac.status_vacina }}</td>
+      <td> {{ vac.observacao }}</td>
+    </tr>
+    {% endfor%}
+    </tbody>
+</table>
+<tr>
+
+    <p></p>
+
+</body>
+{% endblock  %}

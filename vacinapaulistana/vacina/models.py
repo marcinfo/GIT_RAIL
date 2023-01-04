@@ -22,6 +22,9 @@ class TbCalendarioVacina(models.Model):
     descricao_vacina = models.CharField(max_length=45)
     observacao = models.CharField(max_length=45)
     meses = models.IntegerField()
+    usuario = models.CharField(max_length=45, blank=True, null=True)
+    data_prevista = models.CharField(max_length=45, blank=True, null=True)
+    status_vacina = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False

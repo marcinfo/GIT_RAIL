@@ -1,5 +1,26 @@
 @import url(//fonts.googleapis.com/css?family=Muli);
+td, th {
+  padding: .7em;
+  margin: 0;
+  border: 1px solid #ccc;*/
+  text-align: center;
+}
 
+th{
+  background-color: #ADD8E6;*/
+}
+td{
+  font-weight:bold;
+  background-color: #ADD8E6;*/
+}
+
+table{
+  width: 60%;
+  margin-bottom : 50em;
+  table-layout: fixed;
+  text-align: center;
+  align: center
+}
 body {
     margin:0;
     padding:0;

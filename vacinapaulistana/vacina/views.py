@@ -1,3 +1,4 @@
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -5,13 +6,16 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import LoginForm, UserRegistrationForm,UserEditForm,ProfileEditForm
 from .models import Profile,TbCalendarioVacina
-
+from django.db.models import  Sum, Avg
+from datetime import datetime,timedelta,date
+from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
 def index(request):
 
     return render(request, 'vacina/index.html')
 
 def vacinas_prazos(request):
-    vac = TbCalendarioVacina.objects.all().order_by('meses','id_vacina')
+    vac = TbCalendarioVacina.objects.all().annotate(data_prev=Sum('meses')+1).order_by('meses','id_vacina')
 
     context = {
         'vacin':'Vacinas disponibilizadas pelo SUS',

@@ -118,15 +118,8 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class TbCalendarioVacina(models.Model):
-    id_vacina = models.AutoField(primary_key=True)
-    cod_vacina = models.CharField(max_length=8)
-    descricao_vacina = models.CharField(max_length=45)
-    observacao = models.CharField(max_length=45)
-    meses = models.IntegerField()
-    data_prevista = models.CharField(max_length=45, blank=True, null=True)
-    usuario = models.CharField(max_length=45, blank=True, null=True)
-    status_vacina = models.CharField(max_length=45, blank=True, null=True)
+
+
 
     class Meta:
         managed = False

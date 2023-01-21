@@ -16,15 +16,52 @@ def index(request):
     return render(request, 'vacina/index.html')
 
 def vacinas_prazos(request):
-    data_nascimento = date.today()
-    ##transfoma a dataa para o formato intenacional
-    nova_data = parse(data_nascimento)
 
-    vac=TbCalendarioVacina.objects.raw(f'SELECT  *,date_add({nova_data}, interval meses month) as previsao\
-                                        FROM vacina_paulistana.tb_calendario_vacina;')
+    nascimento = "22/02/1973"
+    ##transfoma a dataa para o formato intenacional
+    nova_data = parse(nascimento)
+
+    vac=TbCalendarioVacina.objects.all().values()
+    dados_sql=pd.DataFrame(vac)
+    dados_sql.index_col = False
+    # Contador para o for
+    conta_mes = 0
+    # lista vazia que vai receber os valores de (data + meses)
+    listadata = []
+    diasfalta = []
+    # percorre todas as linhas da tabela
+    for (row, rs) in dados_sql.iterrows():
+        # recebe a quntidade de mes e coloca na quantidade_mes
+        quantidade_mes = int(dados_sql['meses'].values[conta_mes])
+        # adiciona a quaantidade de mêses na data
+        # data_prevista = nova_data + relativedelta(months = quantidade_mes)
+        data_prevista = pd.to_datetime(nova_data) + pd.DateOffset(days=quantidade_mes)
+        # dias  =(data_prevista  - date.today())
+        # incrementa o contador
+        conta_mes = conta_mes + 1
+        listadata += [data_prevista]
+        # diasfalta += [dias]
+    # adiciona a lista ao dataframe
+    dados_sql['dataprevista'] = listadata
+    dados_sql['status'] = ''
+    dados_sql.to_string(index=False)
+    # transforma data para o formato brasileiro
+    dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
+
+    # ordena o dataset com o caampo "dataprevista" crescente
+    calendario_vacina = dados_sql.sort_values(by=['dataprevista'], ascending=True)
+
+    #
+    calendario_vacina_filtro = calendario_vacina[['descricao_vacina', 'dataprevista', 'status']]
+
+    calendario_vacina_filtro['dataprevista'] = calendario_vacina_filtro['dataprevista'].dt.strftime('%d/%m/%Y')
+
+    print(calendario_vacina_filtro)
+
+
     context = {
         'vacin':'Vacinas disponibilizadas pelo SUS',
-        'vac':vac
+        'calendario_vacina_filtro':calendario_vacina_filtro
     }
     return render(request, 'vacina/vacinas_prazos.html', context)
 

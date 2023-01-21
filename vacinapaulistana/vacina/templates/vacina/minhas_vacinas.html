@@ -2,35 +2,20 @@
 
 {% extends "base.html" %}
 
-{% block title %}Minha Agenda{% endblock %}
+{% block title %}Minhas Vacinas{% endblock %}
 
 {% block content %}
 <body>
+<body>
 <h2 align = "center">{{ vacin }}</h2>
 <table class="Tadela_vacinas" align = "center" >
-  <thead>
-    <tr>
 
-
-      <th>Vacina   </th>
-      <th>Meses    </th>
-      <th>Data Prevista    </th>
-      <th>Status    </th>
-      <th>Observações   </th>
-
-    </tr>
-  </thead>
     <tbody>
-    {% for vac in vac %}
-    <tr>
 
-      <td> {{ vac.descricao_vacina }}</td>
-      <td> {{ vac.meses }}</td>
-      <td>  01/01/2023</td>
-      <td> {{ vac.status_vacina }}</td>
-      <td> {{ vac.observacao }}</td>
-    </tr>
-    {% endfor%}
+      <td> {{dados_sql3|safe}}</td>
+
+
+
     </tbody>
 </table>
 <tr>

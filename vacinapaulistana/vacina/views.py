@@ -17,6 +17,70 @@ def index(request):
 
 def vacinas_prazos(request):
 
+    nascimento = "22/02/2000"
+    ##transfoma a dataa para o formato intenacional
+    nova_data = parse(nascimento)
+
+    vac=TbCalendarioVacina.objects.all().values()
+    dados_sql=pd.DataFrame(vac)
+    dados_sql.index_col = False
+    # Contador para o for
+    conta_mes = 0
+    # lista vazia que vai receber os valores de (data + meses)
+    listadata = []
+    diasfalta = []
+    # percorre todas as linhas da tabela
+    for (row, rs) in dados_sql.iterrows():
+        # recebe a quntidade de mes e coloca na quantidade_mes
+        quantidade_mes = int(dados_sql['meses'].values[conta_mes])
+        # adiciona a quaantidade de mêses na data
+        #data_prevista = nova_data + relativedelta(months = quantidade_mes)
+        data_prevista = pd.to_datetime(nova_data) + pd.DateOffset(months=quantidade_mes)
+
+        # incrementa o contador
+        conta_mes = conta_mes + 1
+        listadata += [data_prevista]
+        # diasfalta += [dias]
+    # adiciona a lista ao dataframe
+    dados_sql['dataprevista'] = listadata
+    selecao = (dados_sql['dataprevista'] >= datetime.today())
+
+    print(selecao)
+    dados_sql.to_string(index=False)
+    # transforma data para o formato brasileiro
+    dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
+    dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
+
+    dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
+    dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
+    dados_sql3 = pd.DataFrame(dados_sql2)
+    dados_sql3 = dados_sql3[['descricao_vacina','observacao','meses', 'dataprevista']]
+
+    dados_sql3.rename(
+        columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções', 'meses': 'Meses',
+                 'dataprevista': 'Data prevista'},
+        inplace=True
+    )
+    dados_sql3.to_string(index=False)
+
+
+
+
+    context = {
+        'vacin':'Vacinas disponibilizadas pelo SUS',
+
+        'dados_sql3':dados_sql3.to_html(classes='table table-stripped', border=1, justify='center',index=False)
+    }
+    return render(request, 'vacina/vacinas_prazos.html', context)
+
+def encontra_ubs(request):
+
+    return render(request, 'vacina/encontra_ubs.html')
+
+def minhas_vacinas(request):
+
+
+
     nascimento = "22/02/1973"
     ##transfoma a dataa para o formato intenacional
     nova_data = parse(nascimento)
@@ -34,47 +98,35 @@ def vacinas_prazos(request):
         # recebe a quntidade de mes e coloca na quantidade_mes
         quantidade_mes = int(dados_sql['meses'].values[conta_mes])
         # adiciona a quaantidade de mêses na data
-        # data_prevista = nova_data + relativedelta(months = quantidade_mes)
-        data_prevista = pd.to_datetime(nova_data) + pd.DateOffset(days=quantidade_mes)
-        # dias  =(data_prevista  - date.today())
+        #data_prevista = nova_data + relativedelta(months = quantidade_mes)
+        data_prevista = pd.to_datetime(nova_data) + pd.DateOffset(months=quantidade_mes)
+
         # incrementa o contador
         conta_mes = conta_mes + 1
         listadata += [data_prevista]
         # diasfalta += [dias]
     # adiciona a lista ao dataframe
     dados_sql['dataprevista'] = listadata
-    dados_sql['status'] = ''
+
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
+    dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
+    dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
+    dados_sql3 = pd.DataFrame(dados_sql2)
+    dados_sql3 = dados_sql3[['descricao_vacina','observacao','meses', 'dataprevista','status_vacina']]
+    dados_sql3.rename(
+        columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções', 'meses': 'Meses',
+                 'dataprevista': 'Data Prevista','status_vacina':'Status Vacina'},
+        inplace=True
+    )
+    dados_sql3.to_string(index=False)
 
-    # ordena o dataset com o caampo "dataprevista" crescente
-    calendario_vacina = dados_sql.sort_values(by=['dataprevista'], ascending=True)
 
-    #
-    calendario_vacina_filtro = calendario_vacina[['descricao_vacina', 'dataprevista', 'status']]
-
-    calendario_vacina_filtro['dataprevista'] = calendario_vacina_filtro['dataprevista'].dt.strftime('%d/%m/%Y')
-
-    print(calendario_vacina_filtro)
-
-
-    context = {
-        'vacin':'Vacinas disponibilizadas pelo SUS',
-        'calendario_vacina_filtro':calendario_vacina_filtro
-    }
-    return render(request, 'vacina/vacinas_prazos.html', context)
-
-def encontra_ubs(request):
-
-    return render(request, 'vacina/encontra_ubs.html')
-
-def minhas_vacinas(request):
-    vac = TbCalendarioVacina.objects.all().order_by('meses','id_vacina')
 
     context = {
-        'vacin':'Minha agenda',
-        'vac':vac
+        'vacin':'Minhas Vacinas',
+        'dados_sql3':dados_sql3.to_html(classes='table table-stripped', border=1, justify='center',index=False)
     }
     return render(request, 'vacina/minhas_vacinas.html',context)
 

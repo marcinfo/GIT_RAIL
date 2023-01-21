@@ -6,11 +6,8 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
-    class Meta:
-        managed = False
-        db_table = 'Profile'
-        verbose_name = "Conta de usuário"
-        verbose_name_plural = "Contas de usuários"
+
+
     def __str__(self):
         return f'Profile for user {self.user.username}'
 
@@ -22,7 +19,7 @@ class TbCalendarioVacina(models.Model):
     descricao_vacina = models.CharField(max_length=45)
     observacao = models.CharField(max_length=45)
     meses = models.IntegerField()
-
+    status_vacina = models.CharField(max_length=45, blank=True, null=True)
 
 
     class Meta:

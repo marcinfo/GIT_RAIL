@@ -8,26 +8,13 @@
 <body>
 <h2 align = "center">{{ vacin }}</h2>
 <table class="Tadela_vacinas" align = "center" >
-  <thead>
-    <tr>
 
-
-      <th>Vacina   </th>
-      <th>Meses    </th>
-      <th>Data Prevista   </th>
-      <th>Observações   </th>
-    </tr>
-  </thead>
     <tbody>
-    {% for calendario_vacina_filtro in calendario_vacina_filtro %}
-    <tr>
 
-      <td> {{ calendario_vacina_filtro.descricao_vacina }}</td>
-      <td> {{ calendario_vacina_filtro.meses }}</td>
-      <td> {{ calendario_vacina_filtro.previsao }}</td>
-      <td> {{ calendario_vacina_filtro.observacao }}</td>
-    </tr>
-    {% endfor%}
+      <td> {{dados_sql3|safe}}</td>
+
+
+
     </tbody>
 </table>
 <tr>

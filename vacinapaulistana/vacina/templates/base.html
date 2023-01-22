@@ -8,18 +8,19 @@
 <body>
   <div id="header">
     <span class="logo">Vacina Paulistana</span>
-    {% if request.user.is_authenticated %}
+
     <ul class="menu">
       <li {% if section == "inicio" %}class="selected"{% endif %}>
         <a href="{% url "index" %}">inicio</a>
       </li>
       <li {% if section == "Vacinas disponivei no SUS" %}class="selected"{% endif %}>
-        <a href="{% url "vacinas_prazos" %}">Vacinas disponivei no SUS</a>
+        <a href="{% url "vacinas_prazos" %}">Calculadora</a>
       </li>
 
       <li {% if section == "UBS" %}class="selected"{% endif %}>
         <a href="{% url "encontra_ubs" %}">UBS</a>
       </li>
+    {% if request.user.is_authenticated %}
       <li {% if section == "Minha Agenda" %}class="selected"{% endif %}>
         <a href="{% url "minhas_vacinas" %}">Minhas Vacinas</a>
       </li>
@@ -34,10 +35,10 @@
       <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
         <a href="{% url "dashboard" %}">Minha Conta</a>
       </li>
-
+    {% endif %}
 
     </ul>
-  {% endif %}
+
   <span class="user">
     {% if request.user.is_authenticated %}
       Olá {{ request.user.first_name }},

@@ -1,13 +1,41 @@
-
 {% extends "base.html" %}
 
-{% block title %}Vacina Paulistana{% endblock %}
+{% block title %}vacinas{% endblock %}
 
 {% block content %}
-  <h1>Encontre a UBS mais próxima</h1>
-  <h2>{{ Vacinas }}</h2>
-  {% for vacina in Vacinas_prazos %}
-    <p>{{ vacina }}</p>
-  {% endfor %}
-  </form>
-{% endblock %}
+<p  id="demo">Clique no botão para buscar sua localização:</p>
+<button onchange="getLocation()" onclick="getLocation()">Clique Aqui</button>
+
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+  }
+</script>
+<h2 align = "center">{{ vacin }}</h2>
+<table class="Tadela_vacinas" align = "center" >
+
+    <tbody>
+
+      <td> {{m|safe}}</td>
+
+
+
+    </tbody>
+</table>
+<tr>
+
+    <p></p>
+
+</body>
+{% endblock  %}

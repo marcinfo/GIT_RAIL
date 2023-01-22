@@ -117,6 +117,8 @@ def minhas_vacinas(request):
     dados_sql['dataprevista'] = listadata
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
+    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())
+                     ]
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)

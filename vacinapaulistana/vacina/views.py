@@ -11,14 +11,14 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 from dateutil.parser import parse
 import folium
-import webbrowser
+
 def index(request):
 
     return render(request, 'vacina/index.html')
 
 def vacinas_prazos(request):
 
-    nascimento = "21/01/2023"
+    nascimento = "21/01/1993"
     ##transfoma a dataa para o formato intenacional
     nova_data = parse(nascimento)
     vac=TbCalendarioVacina.objects.all().values()
@@ -42,8 +42,7 @@ def vacinas_prazos(request):
         # diasfalta += [dias]
     # adiciona a lista ao dataframe
     dados_sql['dataprevista'] = listadata
-    selecao = (dados_sql['dataprevista'] >= datetime.today())
-
+    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
@@ -59,7 +58,7 @@ def vacinas_prazos(request):
     )
     dados_sql3.to_string(index=False)
     context = {
-        'vacin':'Vacinas disponibilizadas pelo SUS',
+        'vacin':'Próximas Vacinas',
 
         'dados_sql3':dados_sql3.to_html(classes='table table-stripped', border=1, justify='center',index=False)
     }
@@ -72,19 +71,27 @@ def encontra_ubs(request):
     geoloc=geoloc_ubs
     #seleciona a primeiralinha da pesquisa e utiliza a coordenada para centralizar o mapa
     #par ulilizar vinda do navegador  substitua geoloc.iloc[0]
-    geo_centraliza = geoloc.iloc[978]
+    geo_centraliza = geoloc.iloc[0]
     print(geo_centraliza)
     #variaveis ppara a plotagem
     l1=geo_centraliza['latitude']
     l2=geo_centraliza['longitude']
     #mplotagem do mapa
-    m = folium.Map(location=[l1,l2],zoom_start=14, popup='teste')
-    folium.Marker(location=[float(l1), float(l2)]).add_to(m)
-    m = m._repr_html_()
+    m = folium.Map(location=[l1,l2],zoom_start=12,control_scale=True, width=900, height=450, justify='center')
+    folium.Marker(location=[float(l1), float(l2)] ).add_to(m)
+
+    for _, ubs in geoloc.iterrows():
+        folium.Marker(
+            location=[ubs['latitude'], ubs['longitude']],popup=ubs['endereçoubs']
+        ).add_to(m)
+
+
+
+
     context = {
         'vacin':'Encontre a UBS mais proxima de você.',
 
-        'm':m
+        'm': m._repr_html_()
     }
 
     return render(request, 'vacina/encontra_ubs.html',context)
@@ -117,8 +124,7 @@ def minhas_vacinas(request):
     dados_sql['dataprevista'] = listadata
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
-    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())
-                     ]
+    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)

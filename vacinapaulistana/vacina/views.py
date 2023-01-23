@@ -13,25 +13,17 @@ from dateutil.parser import parse
 import folium
 import requests
 import json
-from pandas import json_normalize
+
 
 def index(request):
     url = 'https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/sp'
     headers = {}
     response = requests.request('GET', url, headers=headers)
-
     dados_covid = json.loads(response.content)
-
-
-
     dados_covid['datetime'] = pd.to_datetime(dados_covid['datetime'])
-
-
-    print(dados_covid)
 
     context = {
         'vacin': 'Próximas Vacinas',
-
         'dados_covid': dados_covid
     }
     return render(request, 'vacina/index.html',context)
@@ -94,13 +86,13 @@ def encontra_ubs(request):
     geoloc=geoloc_ubs
     #seleciona a primeiralinha da pesquisa e utiliza a coordenada para centralizar o mapa
     #par ulilizar vinda do navegador  substitua geoloc.iloc[0]
-    geo_centraliza = geoloc.iloc[0]
+    geo_centraliza = geoloc.iloc[104]
     print(geo_centraliza)
     #variaveis ppara a plotagem
-    l1=geo_centraliza['latitude']
-    l2=geo_centraliza['longitude']
+    l1='-23.550164466'
+    l2='-46.633664132'
     #mplotagem do mapa
-    m = folium.Map(location=[l1,l2],zoom_start=12,control_scale=True, width=1100, height=450, align = "center")
+    m = folium.Map(location=[l1,l2],zoom_start=15,control_scale=True, width=1100, height=450)
     folium.Marker(location=[float(l1), float(l2)] ).add_to(m)
 
     for _, ubs in geoloc.iterrows():

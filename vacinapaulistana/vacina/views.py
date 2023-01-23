@@ -20,18 +20,15 @@ def index(request):
     headers = {}
     response = requests.request('GET', url, headers=headers)
 
-    covid = json.loads(response.content)
-    dados_covid = json_normalize(covid)
-    dados_covid.rename(
-        columns={'datetime': 'atualizado'},inplace=True)
-    dados_covid=pd.DataFrame(dados_covid)
+    dados_covid = json.loads(response.content)
 
+    dados_covid['datetime'] = dados_covid['datetime'].split("T")[-0]
     print(dados_covid)
 
     context = {
         'vacin': 'Próximas Vacinas',
 
-        'dados_covid': dados_covid.to_html()
+        'dados_covid': dados_covid
     }
     return render(request, 'vacina/index.html',context)
 

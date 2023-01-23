@@ -2,17 +2,19 @@
 
 {% extends "base.html" %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Minhas Vacinas{% endblock %}
 
 {% block content %}
 
 
 <html>
 <body>
-    <h2 align = "center">{{dados_covid|safe}}</h2>
+    <p1 align = "center"></p1>
   <!-- Page Content -->
   <div  align = "center">
-        {{dados_covid|safe}}
+      {{dados_covid.cases}}
+      {{dados_covid.deaths}}
+      {{dados_covid.datetime}}
   </div>
 </body>
 </html>

@@ -11,10 +11,29 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 from dateutil.parser import parse
 import folium
+import requests
+import json
+from pandas import json_normalize
 
 def index(request):
+    url = 'https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/sp'
+    headers = {}
+    response = requests.request('GET', url, headers=headers)
 
-    return render(request, 'vacina/index.html')
+    covid = json.loads(response.content)
+    dados_covid = json_normalize(covid)
+    dados_covid.rename(
+        columns={'datetime': 'atualizado'},inplace=True)
+    dados_covid=pd.DataFrame(dados_covid)
+
+    print(dados_covid)
+
+    context = {
+        'vacin': 'Próximas Vacinas',
+
+        'dados_covid': dados_covid.to_html()
+    }
+    return render(request, 'vacina/index.html',context)
 
 def vacinas_prazos(request):
 
@@ -67,7 +86,10 @@ def vacinas_prazos(request):
 def encontra_ubs(request):
     ubs = TbUbsDadosSp.objects.all().values()
     geoloc_ubs = pd.DataFrame(ubs)
+
     #filtra o dataset com a variavel bairroubs
+
+
     geoloc=geoloc_ubs
     #seleciona a primeiralinha da pesquisa e utiliza a coordenada para centralizar o mapa
     #par ulilizar vinda do navegador  substitua geoloc.iloc[0]
@@ -77,7 +99,7 @@ def encontra_ubs(request):
     l1=geo_centraliza['latitude']
     l2=geo_centraliza['longitude']
     #mplotagem do mapa
-    m = folium.Map(location=[l1,l2],zoom_start=12,control_scale=True, width=900, height=450, justify='center')
+    m = folium.Map(location=[l1,l2],zoom_start=12,control_scale=True, width=1100, height=450, align = "center")
     folium.Marker(location=[float(l1), float(l2)] ).add_to(m)
 
     for _, ubs in geoloc.iterrows():
@@ -124,7 +146,7 @@ def minhas_vacinas(request):
     dados_sql['dataprevista'] = listadata
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
-    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
+    #dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
@@ -132,7 +154,7 @@ def minhas_vacinas(request):
     dados_sql3 = dados_sql3[['descricao_vacina','observacao','meses', 'dataprevista','status_vacina']]
     dados_sql3.rename(
         columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções', 'meses': 'Meses',
-                 'dataprevista': 'Data Prevista','status_vacina':'Status Vacina'},
+                 'dataprevista': 'Data Prevista','status_vacina':'Status da Vacina'},
         inplace=True
     )
     dados_sql3.to_string(index=False)

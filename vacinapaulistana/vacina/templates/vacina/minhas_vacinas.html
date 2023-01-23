@@ -5,22 +5,16 @@
 {% block title %}Minhas Vacinas{% endblock %}
 
 {% block content %}
+
+
+<html>
 <body>
-<body>
-<h2 align = "center">{{ vacin }}</h2>
-<table class="Tadela_vacinas" align = "center" >
-
-    <tbody>
-
-      <td> {{dados_sql3|safe}}</td>
-
-
-
-    </tbody>
-</table>
-<tr>
-
-    <p></p>
-
+    <h2 align = "center">{{ vacin }}</h2>
+  <!-- Page Content -->
+  <div  align = "center">
+        {{dados_sql3|safe}}
+  </div>
 </body>
+</html>
+{% endbl
 {% endblock  %}

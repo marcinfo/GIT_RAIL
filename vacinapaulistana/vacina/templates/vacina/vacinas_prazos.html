@@ -5,28 +5,16 @@
 {% block title %}vacinas{% endblock %}
 
 {% block content %}
-<form method='post' action=''>
-            Digite a data de nascimento:<br />
-            <input type='date' name='ano_nasc' />
 
-            <br><br>
-            <input type='submit' value='Calcular' />
-        </form>
+<html>
 <body>
-<h2 align = "center">{{ vacin }}</h2>
-<table class="Tadela_vacinas" align = "center" >
+    <h2 align = "center">{{ vacin }}</h2>
+  <!-- Page Content -->
+  <div  align = "center">
+        {{dados_sql3|safe}}
+  </div>
 
-    <tbody>
-
-      <td> {{dados_sql3|safe}}</td>
-
-
-
-    </tbody>
-</table>
-<tr>
-
-    <p></p>
 
 </body>
+</html>
 {% endblock  %}

@@ -3,9 +3,14 @@
 {% block title %}vacinas{% endblock %}
 
 {% block content %}
+{% load static %}
 <p  id="demo">Clique no botão para buscar sua localização:</p>
 <button onchange="getLocation()" onclick="getLocation()">Clique Aqui</button>
 
+
+
+<html>
+<body>
 <script>
 var x=document.getElementById("demo");
 function getLocation()
@@ -22,36 +27,14 @@ function showPosition(position)
   "<br>Longitude: " + position.coords.longitude;
   }
 </script>
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-
-
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-</head>
-<body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-
-  </nav>
   <!-- Page Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h1 class="mt-5">Busca UBS</h1>
+  <div align = "center">
 
-
+        <h1>Busca UBS</h1>
         {{ m|safe }}
 
-
-      </div>
-    </div>
   </div>
-  <!-- Bootstrap core JavaScript -->
-  <script src="{% static '/jquery/jquery.slim.min.js' %}"></script>
-  <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
 </body>
 </html>
 {% endblock  %}

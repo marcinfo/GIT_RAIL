@@ -1,7 +1,20 @@
+
+
 {% extends "base.html" %}
 
-{% block title %}Edit your account{% endblock %}
+{% block title %}Inicio{% endblock %}
 
 {% block content %}
 
-{% endblock %}
+
+<html>
+<body>
+    <h2 align = "center">{{dados_covid|safe}}</h2>
+  <!-- Page Content -->
+  <div  align = "center">
+        {{dados_covid|safe}}
+  </div>
+</body>
+</html>
+
+{% endblock  %}

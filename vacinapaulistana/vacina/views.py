@@ -22,7 +22,11 @@ def index(request):
 
     dados_covid = json.loads(response.content)
 
-    dados_covid['datetime'] = dados_covid['datetime'].split("T")[-0]
+
+
+    dados_covid['datetime'] = pd.to_datetime(dados_covid['datetime'])
+
+
     print(dados_covid)
 
     context = {
@@ -62,7 +66,7 @@ def vacinas_prazos(request):
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
-    dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
+
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
     dados_sql3 = pd.DataFrame(dados_sql2)

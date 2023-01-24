@@ -7,16 +7,50 @@
 {% block content %}
 
 
-<html>
-<body>
-    <p1 align = "center"></p1>
-  <!-- Page Content -->
-  <div  align = "center">
-      {{dados_covid.cases}}
-      {{dados_covid.deaths}}
-      {{dados_covid.datetime}}
-  </div>
-</body>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="footer.css" />
+
+    <title>Card HTML + CSS</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,200;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="card green">
+        <h>Total de Casos</h>
+        <p>{{dados_covid.cases}}</p>
+        <img class="image" src="money.png" alt="" />
+      </div>
+      <div class="card red">
+        <h>Total de Mortes</h>
+        <p>{{dados_covid.deaths}}</p>
+        <img class="image" src="article.png" alt="" />
+      </div>
+      <div class="card blue">
+        <h>Suspeitos</h>
+        <p>{{dados_covid.suspects}}</p>
+        <img class="image" src="settings.png" alt="" />
+      </div>
+
+      <div class="card red">
+        <h>Atualizado em:   </h>
+        <p1>{{dados_covid.datetime}}</p1>
+        <img class="image" src="article.png" alt="" />
+      </div>
+
+    </div>
+
+    <div class="footer" id="footer"></div>
+    <script src="footer.js"></script>
+  </body>
 </html>
+
 
 {% endblock  %}

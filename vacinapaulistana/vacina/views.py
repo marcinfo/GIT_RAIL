@@ -21,15 +21,13 @@ def index(request):
     response = requests.request('GET', url, headers=headers)
     dados_covid = json.loads(response.content)
     dados_covid['datetime'] = pd.to_datetime(dados_covid['datetime'])
-
+    print(dados_covid)
     context = {
-        'vacin': 'Próximas Vacinas',
-        'dados_covid': dados_covid
-    }
+
+        'dados_covid': dados_covid }
     return render(request, 'vacina/index.html',context)
 
 def vacinas_prazos(request):
-
     nascimento = "21/01/1993"
     ##transfoma a dataa para o formato intenacional
     nova_data = parse(nascimento)
@@ -58,7 +56,6 @@ def vacinas_prazos(request):
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
-
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
     dados_sql3 = pd.DataFrame(dados_sql2)
@@ -71,7 +68,6 @@ def vacinas_prazos(request):
     dados_sql3.to_string(index=False)
     context = {
         'vacin':'Próximas Vacinas',
-
         'dados_sql3':dados_sql3.to_html(classes='table table-stripped', border=1, justify='center',index=False)
     }
     return render(request, 'vacina/vacinas_prazos.html', context)
@@ -79,15 +75,12 @@ def vacinas_prazos(request):
 def encontra_ubs(request):
     ubs = TbUbsDadosSp.objects.all().values()
     geoloc_ubs = pd.DataFrame(ubs)
-
     #filtra o dataset com a variavel bairroubs
-
-
     geoloc=geoloc_ubs
     #seleciona a primeiralinha da pesquisa e utiliza a coordenada para centralizar o mapa
     #par ulilizar vinda do navegador  substitua geoloc.iloc[0]
-    geo_centraliza = geoloc.iloc[104]
-    print(geo_centraliza)
+    #geo_centraliza = geoloc.iloc[104]
+    #print(geo_centraliza)
     #variaveis ppara a plotagem
     l1='-23.550164466'
     l2='-46.633664132'
@@ -99,10 +92,6 @@ def encontra_ubs(request):
         folium.Marker(
             location=[ubs['latitude'], ubs['longitude']],popup=ubs['endereçoubs']
         ).add_to(m)
-
-
-
-
     context = {
         'vacin':'Encontre a UBS mais proxima de você.',
 
@@ -115,7 +104,6 @@ def minhas_vacinas(request):
     nascimento = request.user.profile.date_of_birth
     print(f'user: {request.user.profile.date_of_birth}')
     ##transfoma a dataa para o formato intenacional
-
     vac=TbCalendarioVacina.objects.all().values()
     dados_sql=pd.DataFrame(vac)
     dados_sql.index_col = False
@@ -208,7 +196,6 @@ def register(request):
     return render(request,
                   'vacina/register.html',
                   {'user_form': user_form})
-
 
 @login_required
 def dashboard(request):

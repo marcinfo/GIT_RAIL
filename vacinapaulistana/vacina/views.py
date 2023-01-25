@@ -29,7 +29,7 @@ def index(request):
 
 
 def vacinas_prazos(request):
-    if (request =='POST'):
+    if (request =="GET"):
         teste = request['data_de_nascimento']
 
 

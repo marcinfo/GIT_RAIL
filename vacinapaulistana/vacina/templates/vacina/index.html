@@ -1,55 +1,37 @@
-
-
 {% extends "base.html" %}
 
 {% block title %}Minhas Vacinas{% endblock %}
 
 {% block content %}
+<body>
+<div class="row">
+    <div class="card green">
+        <h>Total de Casos no estado de {{dados_covid.state}}</h>
 
-
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="footer.css" />
-
-    <title>Card HTML + CSS</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,200;1,400;1,600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-
-  <body>
-    <div class="row">
-      <div class="card green">
-        <h>Total de Casos</h>
         <p>{{dados_covid.cases}}</p>
-        <img class="image" src="money.png" alt="" />
-      </div>
-      <div class="card red">
+
+    </div>
+    <div class="card red">
         <h>Total de Mortes</h>
         <p>{{dados_covid.deaths}}</p>
-        <img class="image" src="article.png" alt="" />
-      </div>
-      <div class="card blue">
-        <h>Suspeitos</h>
-        <p>{{dados_covid.suspects}}</p>
-        <img class="image" src="settings.png" alt="" />
-      </div>
 
-      <div class="card red">
-        <h>Atualizado em:   </h>
-        <p1>{{dados_covid.datetime}}</p1>
-        <img class="image" src="article.png" alt="" />
-      </div>
+    </div>
+    <div class="card blue">
+        <h>Casos Suspeitos</h>
+        <p>{{dados_covid.suspects}}</p>
 
     </div>
 
-    <div class="footer" id="footer"></div>
-    <script src="footer.js"></script>
-  </body>
+    <div class="card black">
+        <h>Atualizado em:</h>
+        <p><small>{{dados_covid.datetime|date:"d/m/Y H:i:s"}}</small</p>
+
+    </div>
+
+</div>
+
+
+</body>
 </html>
 
 

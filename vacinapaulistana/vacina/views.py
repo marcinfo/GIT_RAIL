@@ -1,11 +1,11 @@
-
 from django.http import HttpResponse
 from django.shortcuts import render
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import LoginForm, UserRegistrationForm,UserEditForm,ProfileEditForm
-from .models import Profile,TbCalendarioVacina,TbUbsDadosSp
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .models import Profile, TbCalendarioVacina, TbUbsDadosSp
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
@@ -24,15 +24,20 @@ def index(request):
     print(dados_covid)
     context = {
 
-        'dados_covid': dados_covid }
-    return render(request, 'vacina/index.html',context)
+        'dados_covid': dados_covid}
+    return render(request, 'vacina/index.html', context)
+
 
 def vacinas_prazos(request):
-    nascimento = "21/01/1993"
+    if(request.method=="GET"):
+        r = request.GET['data_de_nascimento']
+        nascimento = "21/01/2000"
+        print(r)
+
     ##transfoma a dataa para o formato intenacional
-    nova_data = parse(nascimento)
-    vac=TbCalendarioVacina.objects.all().values()
-    dados_sql=pd.DataFrame(vac)
+    nova_data = r
+    vac = TbCalendarioVacina.objects.all().values()
+    dados_sql = pd.DataFrame(vac)
     dados_sql.index_col = False
     # Contador para o for
     conta_mes = 0
@@ -44,7 +49,7 @@ def vacinas_prazos(request):
         # recebe a quntidade de mes e coloca na quantidade_mes
         quantidade_mes = int(dados_sql['meses'].values[conta_mes])
         # adiciona a quaantidade de mêses na data
-        #data_prevista = nova_data + relativedelta(months = quantidade_mes)
+        # data_prevista = nova_data + relativedelta(months = quantidade_mes)
         data_prevista = pd.to_datetime(nova_data) + pd.DateOffset(months=quantidade_mes)
         # incrementa o contador
         conta_mes = conta_mes + 1
@@ -59,7 +64,7 @@ def vacinas_prazos(request):
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
     dados_sql3 = pd.DataFrame(dados_sql2)
-    dados_sql3 = dados_sql3[['descricao_vacina','observacao','meses', 'dataprevista']]
+    dados_sql3 = dados_sql3[['descricao_vacina', 'observacao', 'meses', 'dataprevista']]
     dados_sql3.rename(
         columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções', 'meses': 'Meses',
                  'dataprevista': 'Data prevista'},
@@ -67,45 +72,47 @@ def vacinas_prazos(request):
     )
     dados_sql3.to_string(index=False)
     context = {
-        'vacin':'Próximas Vacinas',
-        'dados_sql3':dados_sql3.to_html(classes='table table-stripped', border=1, justify='center',index=False)
+        'vacin': 'Próximas Vacinas',
+        'dados_sql3': dados_sql3.to_html(classes='table table-stripped', border=1, justify='center', index=False)
     }
     return render(request, 'vacina/vacinas_prazos.html', context)
+
 
 def encontra_ubs(request):
     ubs = TbUbsDadosSp.objects.all().values()
     geoloc_ubs = pd.DataFrame(ubs)
-    #filtra o dataset com a variavel bairroubs
-    geoloc=geoloc_ubs
-    #seleciona a primeiralinha da pesquisa e utiliza a coordenada para centralizar o mapa
-    #par ulilizar vinda do navegador  substitua geoloc.iloc[0]
-    #geo_centraliza = geoloc.iloc[104]
-    #print(geo_centraliza)
-    #variaveis ppara a plotagem
-    l1='-23.550164466'
-    l2='-46.633664132'
-    #mplotagem do mapa
-    m = folium.Map(location=[l1,l2],zoom_start=15,control_scale=True, width=1100, height=450)
-    folium.Marker(location=[float(l1), float(l2)] ).add_to(m)
+    # filtra o dataset com a variavel bairroubs
+    geoloc = geoloc_ubs
+    # seleciona a primeiralinha da pesquisa e utiliza a coordenada para centralizar o mapa
+    # par ulilizar vinda do navegador  substitua geoloc.iloc[0]
+    # geo_centraliza = geoloc.iloc[104]
+    # print(geo_centraliza)
+    # variaveis ppara a plotagem
+    l1 = '-23.550164466'
+    l2 = '-46.633664132'
+    # mplotagem do mapa
+    m = folium.Map(location=[l1, l2], zoom_start=15, control_scale=True, width=1100, height=450)
+    folium.Marker(location=[float(l1), float(l2)]).add_to(m)
 
     for _, ubs in geoloc.iterrows():
         folium.Marker(
-            location=[ubs['latitude'], ubs['longitude']],popup=ubs['endereçoubs']
+            location=[ubs['latitude'], ubs['longitude']], popup=ubs['endereçoubs']
         ).add_to(m)
     context = {
-        'vacin':'Encontre a UBS mais proxima de você.',
+        'vacin': 'Encontre a UBS mais proxima de você.',
 
         'm': m._repr_html_()
     }
 
-    return render(request, 'vacina/encontra_ubs.html',context)
+    return render(request, 'vacina/encontra_ubs.html', context)
+
 
 def minhas_vacinas(request):
     nascimento = request.user.profile.date_of_birth
     print(f'user: {request.user.profile.date_of_birth}')
     ##transfoma a dataa para o formato intenacional
-    vac=TbCalendarioVacina.objects.all().values()
-    dados_sql=pd.DataFrame(vac)
+    vac = TbCalendarioVacina.objects.all().values()
+    dados_sql = pd.DataFrame(vac)
     dados_sql.index_col = False
     # Contador para o for
     conta_mes = 0
@@ -117,7 +124,7 @@ def minhas_vacinas(request):
         # recebe a quntidade de mes e coloca na quantidade_mes
         quantidade_mes = int(dados_sql['meses'].values[conta_mes])
         # adiciona a quaantidade de mêses na data
-        #data_prevista = nova_data + relativedelta(months = quantidade_mes)
+        # data_prevista = nova_data + relativedelta(months = quantidade_mes)
         data_prevista = pd.to_datetime(nascimento) + pd.DateOffset(months=quantidade_mes)
         # incrementa o contador
         conta_mes = conta_mes + 1
@@ -127,32 +134,34 @@ def minhas_vacinas(request):
     dados_sql['dataprevista'] = listadata
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
-    #dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
+    # dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
     dados_sql3 = pd.DataFrame(dados_sql2)
-    dados_sql3 = dados_sql3[['descricao_vacina','observacao','meses', 'dataprevista','status_vacina']]
+    dados_sql3 = dados_sql3[['descricao_vacina', 'observacao', 'meses', 'dataprevista', 'status_vacina']]
     dados_sql3.rename(
         columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções', 'meses': 'Meses',
-                 'dataprevista': 'Data Prevista','status_vacina':'Status da Vacina'},
+                 'dataprevista': 'Data Prevista', 'status_vacina': 'Status da Vacina'},
         inplace=True
     )
     dados_sql3.to_string(index=False)
     context = {
-        'vacin':'Minhas Vacinas',
-        'dados_sql3':dados_sql3.to_html(classes='table table-stripped', border=1, justify='center',index=False)
+        'vacin': 'Minhas Vacinas',
+        'dados_sql3': dados_sql3.to_html(classes='table table-stripped', border=1, justify='center', index=False)
     }
 
-    return render(request, 'vacina/minhas_vacinas.html',context)
+    return render(request, 'vacina/minhas_vacinas.html', context)
+
 
 def links(request):
-
     return render(request, 'vacina/links.html')
 
-def api(request):
 
+def api(request):
     return render(request, 'vacina/api.html')
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -197,11 +206,10 @@ def register(request):
                   'vacina/register.html',
                   {'user_form': user_form})
 
+
 @login_required
 def dashboard(request):
     return render(request, 'vacina/dashboard.html', {'section': 'dashboard'})
-
-
 
 
 @login_required
@@ -210,9 +218,9 @@ def edit(request):
         user_form = UserEditForm(instance=request.user,
                                  data=request.POST)
         profile_form = ProfileEditForm(
-                                    instance=request.user.profile,
-                                    data=request.POST,
-                                    files=request.FILES)
+            instance=request.user.profile,
+            data=request.POST,
+            files=request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()

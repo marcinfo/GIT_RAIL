@@ -1,5 +1,3 @@
-
-
 {% extends "base.html" %}
 
 {% block title %}vacinas{% endblock %}
@@ -8,13 +6,20 @@
 
 <html>
 <body>
-    <h2 align = "center">{{ vacin }}</h2>
-  <!-- Page Content -->
-  <div  align = "center">
-        {{dados_sql3|safe}}
-  </div>
 
-
+<div class="row">
+    {% csrf_token %}
+    <div>      <!-- Page Content -->
+        <div align="center">
+            <form action="">
+                <legend><strong>Selecione a Data de Nascimento</strong></legend>
+                <input type="date" name="data_de_nascimento"><br/><br/>
+                <input type="submit" value="Calcular">
+            </form>
+            {{dados_sql3|safe}}
+        </div>
+    </div>
+</div>
 </body>
 </html>
 {% endblock  %}

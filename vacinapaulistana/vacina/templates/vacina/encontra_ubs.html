@@ -4,9 +4,8 @@
 
 {% block content %}
 {% load static %}
-<p  id="demo">Clique no botão para buscar sua localização:</p>
+<p id="demo">Clique no botão para buscar sua localização:</p>
 <button onchange="getLocation()" onclick="getLocation()">Clique Aqui</button>
-
 
 
 <html>
@@ -26,14 +25,15 @@ function showPosition(position)
   x.innerHTML="Latitude: " + position.coords.latitude +
   "<br>Longitude: " + position.coords.longitude;
   }
+
 </script>
-  <!-- Page Content -->
-  <div align = "center">
+<!-- Page Content -->
+<div align="center">
 
-        <h1>Busca UBS</h1>
-        {{ m|safe }}
+    <h1>Busca UBS</h1>
+    {{ m|safe }}
 
-  </div>
+</div>
 
 </body>
 </html>

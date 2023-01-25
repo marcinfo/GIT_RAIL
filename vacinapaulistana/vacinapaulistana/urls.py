@@ -7,7 +7,7 @@ admin.site.index_title = 'Painel do Administrador'
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
-    path('vacina/', include('vacina.urls')),
+    path('', include('vacina.urls')),
 ]
 
 if settings.DEBUG:

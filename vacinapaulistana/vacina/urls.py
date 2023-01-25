@@ -5,8 +5,8 @@ from .views import index,vacinas_prazos,encontra_ubs,minhas_vacinas,api,links
 
 urlpatterns = [
 
-    path('index/',index, name='index'),
-    path('', views.dashboard, name='dashboard'),
+    path('',index, name='index'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
@@ -15,5 +15,6 @@ urlpatterns = [
     path('minhas_vacinas/',minhas_vacinas,name='minhas_vacinas'),
     path('api/',api,name='api'),
     path('links/',links,name='links'),
+    path('', include('django.contrib.auth.urls')),
 
 ]

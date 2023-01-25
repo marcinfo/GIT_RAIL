@@ -331,10 +331,14 @@ img.user-detail {
 .card p {
   /*color: #a3a5ae;*/
   font-size: 18px;
+ font-weight: bolder;
+  text-align: center;
 }
 .card h {
   color: #191970;
-  font-size: 20px;
+  font-size: 14px;
+  text-align: center;
+
 }
 .image {
   float: right;
@@ -344,13 +348,17 @@ img.user-detail {
 
 .blue {
   border-left: 3px solid #DAA520;
-  color: #8B4513;
+  color: #FF4500;
 }
 
 .green {
-  border-left: 3px solid #4F4F4F;
-}
+  border-left: 3px solid #696969;
 
+}
+.black {
+  border-left: 3px solid #4169E1;
+  color: #191970;
+}
 .red {
   border-left: 3px solid #b3404a;
   color: #8B0000;

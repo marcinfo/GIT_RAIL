@@ -29,13 +29,17 @@ def index(request):
 
 
 def vacinas_prazos(request):
-    if(request.method=="GET"):
-        r = request.GET['data_de_nascimento']
-        nascimento = "21/01/2000"
-        print(r)
+    if (request =='POST'):
+        teste = request['data_de_nascimento']
 
+
+        print(teste)
+    nasc = "2023-01-10"
+
+
+    nova_data = parse(nasc)
     ##transfoma a dataa para o formato intenacional
-    nova_data = r
+
     vac = TbCalendarioVacina.objects.all().values()
     dados_sql = pd.DataFrame(vac)
     dados_sql.index_col = False

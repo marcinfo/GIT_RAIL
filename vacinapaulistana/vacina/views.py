@@ -13,6 +13,8 @@ from dateutil.parser import parse
 import folium
 import requests
 import json
+from django.shortcuts import get_object_or_404
+from urllib.parse import urlparse
 
 
 def index(request):
@@ -29,12 +31,17 @@ def index(request):
 
 
 def vacinas_prazos(request):
-    if (request =="GET"):
-        teste = request['data_de_nascimento']
+    nasc = "2003-01-21"
 
 
-        print(teste)
-    nasc = "2023-01-10"
+    if (request.method == "GET"):
+        nasc = "20-01-2111"
+        print(request.GET['data_de_nascimento'])
+
+    elif (request.method == "POST"):
+        nasc = "2003-02-21"
+        print(nasc)
+
 
 
     nova_data = parse(nasc)

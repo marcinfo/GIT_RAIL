@@ -8,14 +8,16 @@
 <body>
 
 <div class="row">
-    {% csrf_token %}
+
     <div>      <!-- Page Content -->
         <div align="center">
-            <form action="">
+            <form action="/vacinas_prazos">
                 <legend><strong>Selecione a Data de Nascimento</strong></legend>
-                <input type="date" placeholder="dd-mm-yyyy" name="data_de_nascimento"><br/><br/>
+                <input type="date"  name="data_de_nascimento"><br/><br/>
                 <input type="submit" value="Calcular">
+
             </form>
+            {% csrf_token %}
             {{dados_sql3|safe}}
         </div>
     </div>

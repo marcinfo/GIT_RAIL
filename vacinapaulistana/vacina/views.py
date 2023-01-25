@@ -35,8 +35,8 @@ def vacinas_prazos(request):
 
 
     if (request.method == "GET"):
-        nasc = "20-01-2111"
-        print(request.GET['data_de_nascimento'])
+        nasc = request.GET.get('data_de_nascimento')
+        print(request.GET.get('data_de_nascimento'))
 
     elif (request.method == "POST"):
         nasc = "2003-02-21"
@@ -44,7 +44,7 @@ def vacinas_prazos(request):
 
 
 
-    nova_data = parse(nasc)
+    nova_data = nasc
     ##transfoma a dataa para o formato intenacional
 
     vac = TbCalendarioVacina.objects.all().values()

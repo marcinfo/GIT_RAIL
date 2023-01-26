@@ -98,7 +98,7 @@ def encontra_ubs(request):
     ip_address = socket.gethostbyname(hostname)
     ## printing the hostname and ip_address
     print(f"Hostname: {hostname}")
-    print(f"IP Publico: {ip_address}")
+    print(f"IP Local: {ip_address}")
     ip_address2="187.94.185.34"
     print(f"IP Address: {ip_address2}")
     ip = requests.get('https://api.ipify.org/')

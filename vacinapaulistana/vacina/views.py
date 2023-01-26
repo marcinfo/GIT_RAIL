@@ -13,6 +13,7 @@ from dateutil.parser import parse
 import folium
 import requests
 import json
+import socket
 from django.shortcuts import get_object_or_404
 from urllib.parse import urlparse
 
@@ -31,20 +32,21 @@ def index(request):
 
 
 def vacinas_prazos(request):
-    nasc = "2003-01-21"
+
 
 
     if (request.method == "GET"):
-        nasc = request.GET.get('data_de_nascimento')
-        print(request.GET.get('data_de_nascimento'))
+        if request.GET.get('data_de_nascimento') != "":
+            nova_data = request.GET.get('data_de_nascimento')
+            print(request.GET.get('data_de_nascimento'))
+        elif request.GET.get('data_de_nascimento') == "":
+            nasc = "22/02/1973"
+            nova_data = parse(nasc)
+            print(nova_data)
+    nasc = "22/02/1973"
+    nova_data = parse(nasc)
 
-    elif (request.method == "POST"):
-        nasc = "2003-02-21"
-        print(nasc)
 
-
-
-    nova_data = nasc
     ##transfoma a dataa para o formato intenacional
 
     vac = TbCalendarioVacina.objects.all().values()
@@ -90,6 +92,17 @@ def vacinas_prazos(request):
 
 
 def encontra_ubs(request):
+    ## getting the hostname by socket.gethostname() method
+    hostname = socket.gethostname()
+    ## getting the IP address using socket.gethostbyname() method
+    ip_address = socket.gethostbyname(hostname)
+    ## printing the hostname and ip_address
+    print(f"Hostname: {hostname}")
+    print(f"IP Publico: {ip_address}")
+    ip_address2="187.94.185.34"
+    print(f"IP Address: {ip_address2}")
+    ip = requests.get('https://api.ipify.org/')
+    response = requests.post(f"http://ip-api.com/json/{ip_address2}").json()
     ubs = TbUbsDadosSp.objects.all().values()
     geoloc_ubs = pd.DataFrame(ubs)
     # filtra o dataset com a variavel bairroubs
@@ -99,8 +112,8 @@ def encontra_ubs(request):
     # geo_centraliza = geoloc.iloc[104]
     # print(geo_centraliza)
     # variaveis ppara a plotagem
-    l1 = '-23.550164466'
-    l2 = '-46.633664132'
+    l1 = response['lat']
+    l2 = response['lon']
     # mplotagem do mapa
     m = folium.Map(location=[l1, l2], zoom_start=15, control_scale=True, width=1100, height=450)
     folium.Marker(location=[float(l1), float(l2)]).add_to(m)

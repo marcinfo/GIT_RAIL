@@ -32,23 +32,11 @@ def index(request):
 
 
 def vacinas_prazos(request):
-
-
-
-    if (request.method == "GET"):
-        if request.GET.get('data_de_nascimento') != "":
-            nova_data = request.GET.get('data_de_nascimento')
-            print(request.GET.get('data_de_nascimento'))
-        elif request.GET.get('data_de_nascimento') == "":
-            nasc = "22/02/1973"
-            nova_data = parse(nasc)
-            print(nova_data)
-    nasc = "22/02/1973"
-    nova_data = parse(nasc)
-
-
+    nova_data = request.GET.get('data_de_nascimento')
+    if nova_data == None:
+        nova_data =datetime.today()
+    print(nova_data)
     ##transfoma a dataa para o formato intenacional
-
     vac = TbCalendarioVacina.objects.all().values()
     dados_sql = pd.DataFrame(vac)
     dados_sql.index_col = False
@@ -70,7 +58,7 @@ def vacinas_prazos(request):
         # diasfalta += [dias]
     # adiciona a lista ao dataframe
     dados_sql['dataprevista'] = listadata
-    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today())]
+    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today() - pd.DateOffset(days=1))]
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
@@ -92,6 +80,8 @@ def vacinas_prazos(request):
 
 
 def encontra_ubs(request):
+    l1 = "-23.547169"
+    l2 = "-46.636719"
     ## getting the hostname by socket.gethostname() method
     hostname = socket.gethostname()
     ## getting the IP address using socket.gethostbyname() method
@@ -102,7 +92,12 @@ def encontra_ubs(request):
     ip_address2="187.94.185.34"
     print(f"IP Address: {ip_address2}")
     ip = requests.get('https://api.ipify.org/')
-    response = requests.post(f"http://ip-api.com/json/{ip_address2}").json()
+    response = requests.post(f"http://ip-api.com/json/{ip_address}").json()
+    print(response)
+    if (response['status'] !='fail'):
+        l1 = response['lat']
+        l2 = response['lon']
+
     ubs = TbUbsDadosSp.objects.all().values()
     geoloc_ubs = pd.DataFrame(ubs)
     # filtra o dataset com a variavel bairroubs
@@ -112,16 +107,18 @@ def encontra_ubs(request):
     # geo_centraliza = geoloc.iloc[104]
     # print(geo_centraliza)
     # variaveis ppara a plotagem
-    l1 = response['lat']
-    l2 = response['lon']
+
     # mplotagem do mapa
-    m = folium.Map(location=[l1, l2], zoom_start=15, control_scale=True, width=1100, height=450)
+    m = folium.Map(location=[l1, l2], zoom_start=14, control_scale=True, width=1090, height=450)
     folium.Marker(location=[float(l1), float(l2)]).add_to(m)
+
 
     for _, ubs in geoloc.iterrows():
         folium.Marker(
             location=[ubs['latitude'], ubs['longitude']], popup=ubs['endereçoubs']
         ).add_to(m)
+    folium.Marker(
+        location=[l1, l2], icon=folium.Icon(color='green', icon='home'), ).add_to(m)
     context = {
         'vacin': 'Encontre a UBS mais proxima de você.',
 

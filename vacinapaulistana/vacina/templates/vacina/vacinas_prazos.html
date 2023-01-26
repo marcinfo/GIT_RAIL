@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}vacinas{% endblock %}
+{% block title %} Vacina Paulistana{% endblock %}
 
 {% block content %}
 
@@ -11,17 +11,19 @@
 
     <div>      <!-- Page Content -->
         <div align="center">
-            <form action="/vacinas_prazos">
-                <legend><strong>Selecione a Data de Nascimento</strong></legend>
-                <input type="date"  name="data_de_nascimento" placeholder="01/01/1990" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"required><br/><br/>
+            <form id = teste action="/vacinas_prazos">
+                <legend><strong>Selecione a Data de Nascimento</strong> Caso não seja escolhida sera utilizada a data de hoje</legend>
+                <input type="date"  name="data_de_nascimento" placeholder="01/01/1990""required><br/><br/>
                 <input type="submit" value="Calcular">
 
             </form>
+
             {% csrf_token %}
             {{dados_sql3|safe}}
         </div>
     </div>
 </div>
+
 </body>
 </html>
 {% endblock  %}

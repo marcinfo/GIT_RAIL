@@ -1,37 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}vacinas{% endblock %}
+{% block title %} Vacina Paulistana{% endblock %}
 
 {% block content %}
 {% load static %}
-<p id="demo">Clique no botão para buscar sua localização:</p>
-<button onchange="getLocation()" onclick="getLocation()">Clique Aqui</button>
 
-
-<html>
-<body>
-<script>
-var x=document.getElementById("demo");
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    }
-  else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
-  }
-function showPosition(position)
-  {
-  x.innerHTML="Latitude: " + position.coords.latitude +
-  "<br>Longitude: " + position.coords.longitude;
-
-  }
-
-</script>
 <!-- Page Content -->
-<div align="center">
+<div align="center" >
 
-    <h1>position.coords.longitude</h1>
+    <h3>Encontre as UBS's mais próximas</h3>
     {{ m|safe }}
 
 </div>

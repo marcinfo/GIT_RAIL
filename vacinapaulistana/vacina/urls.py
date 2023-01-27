@@ -2,7 +2,7 @@ from django.urls import path,include
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import index,vacinas_prazos,encontra_ubs,minhas_vacinas,api,links
-
+from .api import apis
 urlpatterns = [
 
     path('',index, name='index'),
@@ -16,5 +16,6 @@ urlpatterns = [
     path('api/',api,name='api'),
     path('links/',links,name='links'),
     path('', include('django.contrib.auth.urls')),
+    path('api_vacina/', apis.urls),
 
 ]

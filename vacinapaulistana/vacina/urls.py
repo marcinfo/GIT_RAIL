@@ -16,6 +16,6 @@ urlpatterns = [
     path('api/',api,name='api'),
     path('links/',links,name='links'),
     path('', include('django.contrib.auth.urls')),
-    path('apis/', apis.urls),
+    path('apis/', apis.urls,name = 'VAcinas API'),
 
 ]

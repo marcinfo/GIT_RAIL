@@ -21,19 +21,18 @@
 
       <li {% if section == "UBS" %}class="selected"{% endif %}>
         <a href="{% url "encontra_ubs" %}">UBS</a>
+<!--      </li>
+            <li {% if section == "API" %}class="selected"{% endif %}>
+        <a href="{% url "api" %}">API</a>
+      </li>-->
+      <li {% if section == "links" %}class="selected"{% endif %}>
+        <a href="{% url "links" %}">links</a>
       </li>
     {% if request.user.is_authenticated %}
       <li {% if section == "Minha Agenda" %}class="selected"{% endif %}>
         <a href="{% url "minhas_vacinas" %}">Minhas Vacinas</a>
       </li>
-      <li {% if section == "API" %}class="selected"{% endif %}>
-        <a href="{% url "api" %}">API</a>
-      </li>
 
-
-      <li {% if section == "links" %}class="selected"{% endif %}>
-        <a href="{% url "links" %}">links</a>
-      </li>
       <li {% if section == "Minha Conta" %}class="selected"{% endif %}>
         <a href="{% url "dashboard" %}">Minha Conta</a>
       </li>

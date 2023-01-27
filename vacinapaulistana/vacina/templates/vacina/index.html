@@ -6,7 +6,7 @@
 <body>
 <div class="row">
     <div class="card green">
-        <h>Total de Casos no estado de {{dados_covid.state}}</h>
+        <h>Total de Casos:  {{dados_covid.uf}}</h>
 
         <p>{{dados_covid.cases}}</p>
 
@@ -29,7 +29,31 @@
     </div>
 
 </div>
+<div class="row">
+    <div class="card green">
+        <h>Total de Casos no Brasil</h>
 
+        <p>{{dados_covid2.data.cases}}</p>
+
+    </div>
+    <div class="card red">
+        <h>Total de Mortes</h>
+        <p>{{dados_covid2.data.deaths}}</p>
+
+    </div>
+    <div class="card blue">
+        <h>Casos Confirmados</h>
+        <p>{{dados_covid2.data.confirmed}}</p>
+
+    </div>
+
+    <div class="card black">
+        <h>Atualizado em:</h>
+        <p><small>{{dados_covid2.data.updated_at|date:"d/m/Y H:i:s"}}</small</p>
+
+    </div>
+
+</div>
 <h1>EM CONSTRUÇÃO</h1>
 
 </body>

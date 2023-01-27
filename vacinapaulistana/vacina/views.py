@@ -24,11 +24,19 @@ def index(request):
     response = requests.request('GET', url, headers=headers)
     dados_covid = json.loads(response.content)
     dados_covid['datetime'] = pd.to_datetime(dados_covid['datetime'])
-    print(dados_covid)
-    context = {
 
-        'dados_covid': dados_covid}
-    return render(request, 'vacina/index.html', context)
+
+    url2 = 'https://covid19-brazil-api.now.sh/api/report/v1/brazil'
+    headers = {}
+    response2 = requests.request('GET', url2, headers=headers)
+    dados_covid2 = json.loads(response2.content)
+
+    #dados_covid2['updated_at'] = pd.to_datetime(dados_covid2['data.updated_at'])
+
+    print(dados_covid2)
+    print(dados_covid)
+
+    return render(request, 'vacina/index.html', {'dados_covid': dados_covid,'dados_covid2': dados_covid2})
 
 
 def vacinas_prazos(request):

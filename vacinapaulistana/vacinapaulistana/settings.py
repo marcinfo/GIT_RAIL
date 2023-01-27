@@ -11,7 +11,7 @@ SECRET_KEY = '@^k78$e&p+sm$!9^u+e&!mnd!ercjq4j-t-k!0$r7-r#i4mf#u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'ninja',
 ]
 
 MIDDLEWARE = [
@@ -115,9 +116,19 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-
+SECURE_HSTS_SECONDS = True
+SECURE_HSTS_INCLUDE_SUBDDOMAINS = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = 'DENY'
+#SECURE_SSL_REDIRECT =True
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

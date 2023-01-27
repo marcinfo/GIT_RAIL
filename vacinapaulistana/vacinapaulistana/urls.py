@@ -6,7 +6,7 @@ admin.site.site_header = 'Vacina paulistana'
 admin.site.index_title = 'Painel do Administrador'
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
-    path('admin/', admin.site.urls),
+    path('vacina_admin_painel/', admin.site.urls),
     path('', include('vacina.urls')),
 ]
 

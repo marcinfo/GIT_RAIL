@@ -119,3 +119,11 @@ class TbUbsDadosSp(models.Model):
         db_table = 'tb_ubs_dados_sp'
         verbose_name = "Tabela de UBS"
         verbose_name_plural = "Tabela de UBS"
+class Vacinas(models.Model):
+    id = models.AutoField(primary_key=True)
+    descricao_vacina = models.CharField(max_length=45)
+    observacao = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'vacinas'

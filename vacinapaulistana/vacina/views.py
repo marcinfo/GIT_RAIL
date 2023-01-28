@@ -19,6 +19,7 @@ from urllib.parse import urlparse
 
 
 def index(request):
+
     url = 'https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/sp'
     headers = {}
     response = requests.request('GET', url, headers=headers)
@@ -31,7 +32,6 @@ def index(request):
     response2 = requests.request('GET', url2, headers=headers)
     dados_covid2 = json.loads(response2.content)
 
-    #dados_covid2['updated_at'] = pd.to_datetime(dados_covid2['data.updated_at'])
 
     print(dados_covid2)
     print(dados_covid)
@@ -43,7 +43,6 @@ def vacinas_prazos(request):
     nova_data = request.GET.get('data_de_nascimento')
     if nova_data == None:
         nova_data =datetime.today()
-    print(nova_data)
     ##transfoma a dataa para o formato intenacional
     vac = TbCalendarioVacina.objects.all().values()
     dados_sql = pd.DataFrame(vac)
@@ -66,16 +65,16 @@ def vacinas_prazos(request):
         # diasfalta += [dias]
     # adiciona a lista ao dataframe
     dados_sql['dataprevista'] = listadata
-    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today() - pd.DateOffset(days=1))]
+    dados_sql = dados_sql.loc[(dados_sql['dataprevista'] >= datetime.today() + pd.DateOffset(days=7))]
     dados_sql.to_string(index=False)
     # transforma data para o formato brasileiro
     dados_sql['dataprevista'] = pd.to_datetime(dados_sql['dataprevista'])
     dados_sql['dataprevista'] = dados_sql['dataprevista'].dt.strftime('%d/%m/%Y')
     dados_sql2 = dados_sql.sort_values(by=['meses'], ascending=True)
     dados_sql3 = pd.DataFrame(dados_sql2)
-    dados_sql3 = dados_sql3[['descricao_vacina', 'observacao', 'meses', 'dataprevista']]
+    dados_sql3 = dados_sql3[['descricao_vacina', 'observacao',  'dataprevista']]
     dados_sql3.rename(
-        columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções', 'meses': 'Meses',
+        columns={'descricao_vacina': 'Vacina', 'observacao': 'Observções',
                  'dataprevista': 'Data prevista'},
         inplace=True
     )
@@ -138,7 +137,7 @@ def encontra_ubs(request):
 
 def minhas_vacinas(request):
     nascimento = request.user.profile.date_of_birth
-    print(f'user: {request.user.profile.date_of_birth}')
+
     ##transfoma a dataa para o formato intenacional
     vac = TbCalendarioVacina.objects.all().values()
     dados_sql = pd.DataFrame(vac)

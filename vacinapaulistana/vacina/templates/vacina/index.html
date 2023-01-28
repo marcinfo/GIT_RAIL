@@ -6,25 +6,23 @@
 <body>
 <div class="row">
     <div class="card green">
-        <h>Total de Casos:  {{dados_covid.uf}}</h>
-
+        <h>Total de Casos em {{dados_covid.uf}}</h>
         <p>{{dados_covid.cases}}</p>
-
     </div>
     <div class="card red">
-        <h>Total de Mortes</h>
+        <h>Mortes</h>
         <p>{{dados_covid.deaths}}</p>
 
     </div>
     <div class="card blue">
-        <h>Casos Suspeitos</h>
+        <h>Suspeitos </h>
         <p>{{dados_covid.suspects}}</p>
 
     </div>
 
-    <div class="card black">
-        <h>Atualizado em:</h>
-        <p><small>{{dados_covid.datetime|date:"d/m/Y H:i:s"}}</small</p>
+    <div class="card negativo">
+        <h>Negativos (dia anterior):</h>
+        <p>{{dados_covid.refuses}}</p>
 
     </div>
 
@@ -33,28 +31,28 @@
     <div class="card green">
         <h>Total de Casos no Brasil</h>
 
-        <p>{{dados_covid2.data.cases}}</p>
+        <p>{{dados_covid2.data.confirmed}}</p>
 
     </div>
     <div class="card red">
-        <h>Total de Mortes</h>
+        <h>Mortes</h>
         <p>{{dados_covid2.data.deaths}}</p>
 
     </div>
     <div class="card blue">
-        <h>Casos Confirmados</h>
-        <p>{{dados_covid2.data.confirmed}}</p>
+        <h>Recuperados</h>
+        <p>{{dados_covid2.data.recovered}}</p>
 
     </div>
 
     <div class="card black">
         <h>Atualizado em:</h>
-        <p><small>{{dados_covid2.data.updated_at|date:"d/m/Y H:i:s"}}</small</p>
+        <p><small>{{dados_covid.datetime|date:"d/m/Y H:i"}}</small</p>
 
     </div>
 
 </div>
-<h1>EM CONSTRUÇÃO</h1>
+
 
 </body>
 </html>

@@ -26,13 +26,10 @@ def index(request):
     dados_covid = json.loads(response.content)
     dados_covid['datetime'] = pd.to_datetime(dados_covid['datetime'])
 
-
     url2 = 'https://covid19-brazil-api.now.sh/api/report/v1/brazil'
     headers = {}
     response2 = requests.request('GET', url2, headers=headers)
     dados_covid2 = json.loads(response2.content)
-
-
     print(dados_covid2)
     print(dados_covid)
 

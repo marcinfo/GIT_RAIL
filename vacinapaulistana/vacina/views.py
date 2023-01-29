@@ -85,7 +85,6 @@ def vacinas_prazos(request):
     }
     return render(request, 'vacina/vacinas_prazos.html', context)
 
-
 def encontra_ubs(request):
     l1 = "-23.547169"
     l2 = "-46.636719"
